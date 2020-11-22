@@ -17,11 +17,12 @@
 		});
 	</script>
 
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" media="screen" />
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/css/atlantis.min.css">
 	<link rel="stylesheet" href="/css/demo.css">
+	<link rel="stylesheet" href="/css/chosen-select.css">
+	<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
 </head>
 <body>
 	<div class="wrapper sidebar_minimize">
@@ -403,8 +404,8 @@
 						<div class="col-md-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title float-left">Manage User</h4>
-									<button id="createuser" class="btn btn-primary float-right mr-5" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="modalpopup()">Create User</button>
+									<h4 class="card-title float-left">Manage Employee</h4>
+									<button id="createuser" class="btn btn-primary float-right mr-5" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="modalpopup()">Add Employee</button>
                                     <!-- <div class="container">
 										<div class="row">
 											<div class="col-3">
@@ -421,11 +422,11 @@
 										<table id="basic-datatables" class="display table table-striped table-hover" >
 											<thead>
 												<tr>
+													<th>First Name</th>
+													<th>Last Name</th>
 													<th>Email</th>
-													<th>Is Locked</th>
-													<th>Attempt</th>
-													<th>FP Counter</th>
-													<th>Created At</th>
+													<th>Designation</th>
+													<th>Address Line</th>
 													<th>Action</th>
 												</tr>
 											</thead>
@@ -441,35 +442,137 @@
 				</div>
 			</div>
 			<div id="modaledit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-dialog  modal-lg" role="document">
 				  <div class="modal-content">
 					<div class="modal-header">
-					  <h5 class="modal-title" id="exampleModalLabel">Create User</h5>
+					  <h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
 					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					  </button>
 					</div>
 					<div class="modal-body">
-					  <div class="container">
-						<div class="row">
-							<div class="col-md-12 col-lg-6">
-								<div class="form-group">
-									<label for="email2">Username</label>
-									<input id="username" type="text" class="form-control" placeholder="Enter Username">
+					  <form id="form_addemployee">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12 col-lg-6">
+									<div class="form-group">
+										<label for="email2">First Name</label>
+										<input id="firstname" type="text" class="form-control" placeholder="Enter First Name" required="">
+									</div>
+								</div>
+								<div class="col-md-12 col-lg-6">
+									<div class="form-group">
+										<label for="email2">Last Name</label>
+										<input id="lastname" type="text" class="form-control" placeholder="Enter Last Name" required="">
+									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-lg-6">
-								<div class="form-group">
-									<label for="email2">Password</label>
-									<input id="usernamepassword" type="password" class="form-control" placeholder="Enter Password">
+							<div class="row">
+								<div class="col-md-12 col-lg-6">
+									<div class="form-group">
+										<label for="defaultSelect">Designation</label>
+										<select id="designation" class="form-control form-control" required="">
+											<option value="">- Please Select -</option>
+											<option value="manager">Manager</option>
+											<option value="salestaff">Sale Staff</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-12 col-lg-6">
+									<div id="enterphone" class="form-group">
+										<label for="email2">Phone</label>
+										<input id="phone" type="number" class="form-control" placeholder="Enter Phone" required="">
+									</div>
 								</div>
 							</div>
-						</div>
-					  </div>
+							<div class="row">
+								<div class="col-md-12 col-lg-6">
+									<div class="form-group">
+										<label for="defaultSelect">Rate Type</label>
+										<select id="rate_type" class="form-control form-control" required="">
+											<option value="">- Please Select -</option>
+											<option value="hourly">Hourly</option>
+											<option value="salary">Salary</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-12 col-lg-6">
+									<div class="form-group">
+										<label for="email2">Hour Rate/Salary</label>
+										<input id="hour_rate_salary" type="number" class="form-control" placeholder="Enter Hour Rate/Salary" required="">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 col-lg-6">
+									<div class="form-group">
+										<label for="email2">Email</label>
+										<input id="email" type="text" class="form-control" placeholder="Enter Email" required="">
+									</div>
+								</div>
+								<div class="col-md-12 col-lg-6">
+									<div class="form-group">
+										<label for="defaultSelect">Blood Group</label>
+										<select id="blood_group" class="form-control form-control" required="">
+											<option value="">- Please Select -</option>
+											<option value="A">A</option>
+											<option value="B">B</option>
+											<option value="AB">AB</option>
+											<option value="O">O</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 col-lg-6">
+									<div class="form-group">
+										<label for="email2">Address Line 1</label>
+										<input id="address_line_1" type="text" class="form-control" placeholder="Enter Address Line 1" required="">
+									</div>
+								</div>
+								<div class="col-md-12 col-lg-6">
+									<div class="form-group">
+										<label for="email2">Address Line 2</label>
+										<input id="address_line_2" type="text" class="form-control" placeholder="Enter Address Line 2" required="">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 col-lg-6">
+									<div class="form-group">
+										<label for="email2">City</label>
+										<input id="city" type="text" class="form-control" placeholder="Enter City" required="">
+									</div>
+								</div>
+								<div class="col-md-12 col-lg-6">
+									<div class="form-group">
+										<label for="email2">Zip Code</label>
+										<input id="zip_code" type="text" class="form-control" placeholder="Enter Zip Code" required="">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-1"></div>
+								<div class="col-md-12 col-lg-10 container form-group">
+									<div class="row">
+										<label for="defaultSelect">Country</label>
+									</div>
+									<div class="row">
+										<select id="listcountry" 
+											class="form-control chosen-select" required="" data-parsley-errors-container="#listcountryerr">
+											<option value="">- Please Select -</option>
+										</select>
+									</div>
+									<div id="listcountryerr"></div>
+								</div>
+								<div class="col-lg-1"></div>
+							</div>
+						  </div>
+					  </form>
 					</div>
 					<div class="modal-footer">
 					  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					  <button onclick="createnewuser()" type="button" class="btn btn-primary">Create</button>
+					  <button onclick="createaddemployee()" type="button" class="btn btn-primary">Add Employee</button>
 					</div>
 				  </div>
 				</div>
@@ -510,146 +613,38 @@
 	<script src="/js/jquery.scrollbar.min.js"></script>
 	<script src="/js/atlantis.min.js"></script>
 	<script src="/js/setting-demo2.js"></script>
+	<script src="/js/parsley.min.js"></script>
 	<script src="/js/datatables.min.js"></script>
 	<script src="/js/sweetalert.min.js"></script>
 	<script type="text/javascript" src="/js/jquery.qrcode.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.min.js" integrity="sha512-/WwtKR6NnHomLo0O4w9QKc1INTPEJs7ko6u2aBTA1paPldhPl8LtXsi7a35iEZ69+9P5dcgVNESG8hrP4Y2t3w==" crossorigin="anonymous"></script>
+	<script src="/js/choosen-jquery.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
 	<script>
 
 		$(document).ready(function() {
-			getAllAddrBook();
-
-			// $('#basic-datatables').DataTable({
-			// 	responsive: true
-			// });
-
-			// $('#multi-filter-select').DataTable( {
-			// 	"pageLength": 5,
-			// 	initComplete: function () {
-			// 		this.api().columns().every( function () {
-			// 			var column = this;
-			// 			var select = $('<select class="form-control"><option value=""></option></select>')
-			// 			.appendTo( $(column.footer()).empty() )
-			// 			.on( 'change', function () {
-			// 				var val = $.fn.dataTable.util.escapeRegex(
-			// 					$(this).val()
-			// 					);
-
-			// 				column
-			// 				.search( val ? '^'+val+'$' : '', true, false )
-			// 				.draw();
-			// 			} );
-
-			// 			column.data().unique().sort().each( function ( d, j ) {
-			// 				select.append( '<option value="'+d+'">'+d+'</option>' )
-			// 			} );
-			// 		} );
-			// 	}
-			// });
-
-			// // Add Row
-			// $('#add-row').DataTable({
-			// 	"pageLength": 5,
-			// });
-
-			// var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-			// $('#addRowButton').click(function() {
-			// 	$('#add-row').dataTable().fnAddData([
-			// 		$("#addName").val(),
-			// 		$("#addPosition").val(),
-			// 		$("#addOffice").val(),
-			// 		action
-			// 		]);
-			// 	$('#addRowModal').modal('hide');
-
-			// });
+			getEmployee();
 		});
 
 		function modalpopup(){
 			$("#username").val("");
 			$("#usernamepassword").val("");
 			$("#modaledit").modal('show');
+			listcountry();
 		}
 
-		function getAllAddrBook(){
-			// $.ajax({
-			// 	url: "/api/addrbook/data-table",
-			// 	type: "GET",
-			// 	contentType: "application/json",
-			// 	success: function(result){
-			// 		console.log(result);
-			// 		// console.log(result.data["1"]);
-			// 		$('#basic-datatables').dataTable( {
-			// 			"aaData": result.data,
-			// 			"columns": [
-			// 				{ "data": "" },
-			// 				{ "data": "" },
-			// 				{ "data": "" },
-			// 				{ "data": "" },
-			// 				{ "data": "" }
-			// 			]
-			// 		});
-			// 		for (key in result.data) {
-			// 			if (result.data.hasOwnProperty(key)) {
-			// 				console.log(result.data[key]);
-			// 			}
-			// 		}
-			// 		for (key in result.data) {
-			// 			if (result.data.hasOwnProperty(key)) {
-			// 				console.log(result.data[key]);
-			// 				$("#pilihjabatan").append(
-			// 				`<option value="` +
-			// 					result.data[key].kodeJabatan +
-			// 					`"">` +
-			// 					result.data[key].jenisJabatan +
-			// 					`</option>`
-			// 				);
-			// 			}
-			// 		}
-			// 	}
-			// });
-			// let jsonData = {
-			// 	"data": [
-			// 		[
-			// 		"Tiger Nixon",
-			// 		"System Architect",
-			// 		"Edinburgh",
-			// 		"5421",
-			// 		"2011/04/25",
-			// 		"$320,800"
-			// 		],
-			// 		[
-			// 		"Garrett Winters",
-			// 		"Accountant",
-			// 		"Tokyo",
-			// 		"8422",
-			// 		"2011/07/25",
-			// 		"$170,750"
-			// 		]
-			// 	]
-			// }
+		function getEmployee(){
 			$('#basic-datatables').dataTable({
 				"ajax" : {
-					"url" : "/api/addrbook/data-table",
+					"url" : "/api/employee/data-table",
 					"dataSrc" : function (json) {
-						// let newJson = {};
-						// let i = 0;
-						// for (key in json.data) {
-						// 	if (json.data.hasOwnProperty(key)) {
-						// 		console.log(json.data[key]);
-						// 		newJson[i] += json.data[key];
-						// 	}
-						// 	i++;
-						// }
-						// console.log(newJson);
 						for(let i = 0; i < json.data.length; i ++){
-							if(json.data[i][1]){
-								json.data[i][1] = "Yes";
-							}else{
-								json.data[i][1] = "No";
-							}
+							json.data[i][0] = json.data[i][1];
+							json.data[i][1] = json.data[i][2];
+							json.data[i][2] = json.data[i][7];
+							json.data[i][3] = json.data[i][3];
+							json.data[i][4] = json.data[i][9];
 							json.data[i][5] = "<div class =\"btn-group\" style=\"background-color: #000080;\">"+
 								"<button type=\"button\" style=\"background-color: #000080;\" class = \"btn btn-info\">More</button>"+
 								"<button type=\"button\" style=\"background-color: #000080;\" class = \"btn btn-info dropdown=toggle\" data-toggle=\"dropdown\">"+
@@ -669,27 +664,58 @@
 			});
 		}
 
-		function createnewuser(){
+		function createaddemployee(){
+			$("#form_addemployee").parsley().validate();
 			let data = {
-				email: $("#username").val(),
-				password: $("#usernamepassword").val()
+				first_name: $("#firstname").val(),
+				last_name: $("#lastname").val(),
+				designation: $("#designation").val(),
+				phone: $("#phone").val(),
+				rate_type: $("#rate_type").val(),
+				hour_rate_salary: $("#hour_rate_salary").val(),
+				email: $("#email").val(),
+				blood_group: $("#blood_group").val(),
+				address_line_1: $("#address_line_1").val(),
+				address_line_2: $("#address_line_2").val(),
+				country: $("#country").val(),
+				city: $("#city").val(),
+				zip_code: $("#zip_code").val(),
+				picture: $("#firstname").val(),
+				country: $("#listcountry").val()
 			}
-			$.ajax({
-				url: "/api/addrbook",
-				type: "POST",
-				contentType: "application/json",
-				data: JSON.stringify(data),
-				success: function(result){
-					if(result.status === "ERR"){
-						Swal.fire({
-							icon: "error",
-							padding: "3em",
-							title: "Create user",
-							text: "Create user gagal",
-						});
-					}else{
-						$("#modaledit").modal('hide');
+			if($("#form_addemployee").parsley().isValid()){
+				$.ajax({
+					url: "/api/employee",
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(data),
+					success: function(result){
+						console.log(result.data);
 					}
+				});
+			}
+		}
+
+		function listcountry(){
+			$.ajax({
+				url: "/api/middleware/all-country",
+				type: "GET",
+				contentType: "application/json",
+				success: function(result){
+					console.log(result.data);
+					for(key in  result.data){
+						if(result.data.hasOwnProperty(key)){
+							$("#listcountry").append(
+								`<option value="` +
+									result.data[key].country +
+									`"">` +
+									result.data[key].country +
+									`</option>`
+							);
+						}
+					}
+					$('.chosen-select').chosen();
+					$('.chosen-select-deselect').chosen({ allow_single_deselect: true });
 				}
 			});
 		}
