@@ -7,6 +7,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const users = require("./router_sequelize/router_1");
 const employee = require("./router_sequelize/router_2");
+const designation = require("./router_sequelize/router_3");
 const getapi = require("./router_sequelize/router_api");
 const dashboard = require("./router_dashboard/controller_dashboard");
 const controller_login_system = require("./router_login_system/controller_login_system");
@@ -37,6 +38,7 @@ app.use(passport.session());
 
 app.use('/api/addrbook', users);
 app.use('/api/employee', employee);
+app.use('/api/designation', designation);
 app.use('/api/middleware', getapi);
 app.use('/controller', controller_login_system);
 app.use('/dashboard', dashboard);
