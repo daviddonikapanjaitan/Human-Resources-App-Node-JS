@@ -93,6 +93,23 @@ router.get("/add-employee", async function(req, res, next){
     }
 });
 
+router.get("/benefits", async function(req, res, next){
+    try{
+        res.sendFile(
+            path.resolve(
+                __dirname, 
+                "../template", 
+                "dashboard",
+                "benefits.html"
+        ));
+    }catch(err){
+        if(err){
+            console.log(err);
+            res.json({err: "Error", errdesc: "Tejadi Kesalahan"});
+        }
+    }
+});
+
 router.get("/manage-designation", async function(req, res, next){
     try{
         res.sendFile(

@@ -1,9 +1,10 @@
 .chosen-select {
-  width: 100%;
+  display: block;
+  /* width: 100%; */
 }
 
 .chosen-select-deselect {
-  width: 100%;
+  /* width: 100%; */
 }
 
 .chosen-container {

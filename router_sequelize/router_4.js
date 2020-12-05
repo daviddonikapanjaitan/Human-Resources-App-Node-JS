@@ -2,28 +2,26 @@ const express = require("express");
 const router = express.Router();
 const model = require("../models/index");
 
-// GET Designation listing
-router.get('/data-table', async function(req, res, next){
+// GET Benefits listing
+router.get("/data-table", async function(req, res, next){
     try{
-        const designation = await model.designation.findAll({});
+        const benefits = await model.benefits.findAll({});
         let arrayJson = [];
         let arrayChild = [];
-        for(let i = 0; i < designation.length; i++){
+        for(let i = 0; i< benefits.length; i++){
             arrayChild = [];
             start = 0;
-            arrayChild[start] = designation[i].id.toString();
-            arrayChild[start + 1] = designation[i].sl;
-            arrayChild[start + 2] = designation[i].designation;
-            arrayChild[start + 3] = designation[i].details;
+            arrayChild[start] = benefits[i].id.toString();
+            arrayChild[start + 1] = benefits[i].salary_benefits;
+            arrayChild[start + 2] = benefits[i].benefits_type;
 
             arrayJson[i] = arrayChild;
         }
-        console.log(JSON.stringify(arrayJson));
-        if(designation.length !== 0){
+        if(benefits.length !== 0){
             res.json({
                 'status':'OK',
                 'messages':'',
-                'data': arrayJson
+                'data':arrayJson
             });
         }else{
             res.json({
@@ -44,19 +42,19 @@ router.get('/data-table', async function(req, res, next){
     }
 });
 
-// GET Designation by ID
-router.get('/:id', async function(req, res, next){
+// Get Benefits by ID
+router.get("/:id", async function(req, res, next){
     try{
-        const designation = await model.designation.findAll({
+        const benefits = await model.benefits.findAll({
             where: {
                 id: parseInt(req.params.id)
             }
         });
-        if(designation){
+        if(benefits){
             res.json({
-                'status': 'OK',
-                'messages': '',
-                'count': designation
+                'status':'OK',
+                'messages':'',
+                'count':benefits
             });
         }
     }catch(err){
@@ -71,27 +69,24 @@ router.get('/:id', async function(req, res, next){
     }
 });
 
-// Post Designation
+// Post Benefits
 router.post("/", async function(req, res, next){
     try{
         const {
-            sl,
-            designation,
-            details,
+            salary_benefits,
+            benefits_type
         } = req.body;
-        const add_designation = await model.designation.create({
-            sl,
-            designation,
-            details
+        const post_benefits = await model.benefits.create({
+            salary_benefits,
+            benefits_type
         }); 
-        if(add_designation){
+        if(post_benefits){
             res.status(201).json({
                 'status':'OK',
-                'messages':'Designation has been added',
+                'messages':'Benefits has been added',
                 'data':{
-                    sl: sl,
-                    designation: designation,
-                    details: details
+                    salary_benefits: salary_benefits,
+                    benefits_type: benefits_type
                 }
             });
         }else{
@@ -110,31 +105,28 @@ router.post("/", async function(req, res, next){
     }
 });
 
-// Patch Designation
+// Patch Benefits
 router.patch("/:id", async function(req, res, next){
     try{
         const {
-            sl,
-            designation,
-            details,
+            salary_benefits,
+            benefits_type
         } = req.body;
-        const update_designation = await model.designation.update({
-            sl,
-            designation,
-            details
+        const update_benefits = await model.benefits.update({
+            salary_benefits,
+            benefits_type
         }, {
-            where: {
+            where:{
                 id: req.params.id
             }
-        }); 
-        if(update_designation){
+        });
+        if(update_benefits){
             res.status(201).json({
                 'status':'OK',
-                'messages':'Designation has been added',
+                'messages':'Benefits has been added',
                 'data':{
-                    sl: sl,
-                    designation: designation,
-                    details: details
+                    salary_benefits: salary_benefits,
+                    benefits_type: benefits_type
                 }
             });
         }else{
@@ -153,27 +145,30 @@ router.patch("/:id", async function(req, res, next){
     }
 });
 
-// Delete by ID 
-router.delete("/:id", async function(req, res, next){
-    try {
-        const desination_id = parseInt(req.params.id);
-        const designation = await model.designation.destroy({ where: {
-          id: desination_id
-        }})
-        if (designation) {
-          res.json({
-            'status': 'OK',
-            'messages': 'User has been deleted',
-            'data': designation,
-          })
+// Delete by ID
+router.delete("/:id", async function (req, res, next){
+    try{
+        const benefits_id = parseInt(req.params.id);
+        const benefits = await model.benefits.destroy({
+            where: {
+                id: benefits_id
+            }
+        });
+        if(benefits){
+            res.json({
+                'status':'OK',
+                'messages':'Benefits has been deleted',
+                'data':benefits
+            });
         }
-      } catch (err) {
+    }catch(err){
+        console.log(err);
         res.status(400).json({
-          'status': 'ERROR',
-          'messages': err.message,
-          'data': {},
-        })
-      }
+            'status':'ERROR',
+            'messages':err.message,
+            'data':{}
+        });
+    }
 });
 
 module.exports = router;
