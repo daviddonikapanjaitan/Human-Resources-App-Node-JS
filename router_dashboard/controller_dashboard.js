@@ -127,6 +127,23 @@ router.get("/manage-designation", async function(req, res, next){
     }
 });
 
+router.get("/attendance", async function(req, res, next){
+    try{
+        res.sendFile(
+            path.resolve(
+                __dirname, 
+                "../template", 
+                "dashboard",
+                "attendance.html"
+        ));
+    }catch(err){
+        if(err){
+            console.log(err);
+            res.json({err: "Error", errdesc: "Tejadi Kesalahan"});
+        }
+    }
+});
+
 // Jquery UI
 router.get("/autocomplete", async function(req, res, next){
     try{

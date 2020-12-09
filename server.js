@@ -9,6 +9,7 @@ const users = require("./router_sequelize/router_1");
 const employee = require("./router_sequelize/router_2");
 const designation = require("./router_sequelize/router_3");
 const benefits = require("./router_sequelize/router_4");
+const attendance = require("./router_sequelize/router_5");
 const getapi = require("./router_sequelize/router_api");
 const dashboard = require("./router_dashboard/controller_dashboard");
 const controller_login_system = require("./router_login_system/controller_login_system");
@@ -17,6 +18,7 @@ const mustacheExpress = require("mustache-express");
 require("./router_login_system/passport")(passport);
 
 // https://medium.com/skyshidigital/membuat-restful-api-menggunakan-express-dan-sequelize-ef0e10da36ff
+// https://saleserpnew.bdtask.com/saleserp_v9.8_demo/home
 
 app.engine("html", mustacheExpress());
 
@@ -41,6 +43,7 @@ app.use('/api/addrbook', users);
 app.use('/api/employee', employee);
 app.use('/api/designation', designation);
 app.use('/api/benefits', benefits);
+app.use('/api/attendance', attendance);
 app.use('/api/middleware', getapi);
 app.use('/controller', controller_login_system);
 app.use('/dashboard', dashboard);
