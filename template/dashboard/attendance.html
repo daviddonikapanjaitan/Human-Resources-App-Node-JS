@@ -16,14 +16,27 @@
 			}
 		});
 	</script>
-
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet"/> -->
 	<link rel="stylesheet" href="/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/css/atlantis.min.css">
 	<link rel="stylesheet" href="/css/demo.css">
 	<link rel="stylesheet" href="/css/chosen-select.css">
-	<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+	<link rel="stylesheet" href="/css/bootstrap-datetimepicker-build4.css">
+	<!-- https://www.jqueryscript.net/time-clock/Date-Time-Picker-Bootstrap-4.html -->
+	<!-- <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css"> -->
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.38.0/css/tempusdominus-bootstrap-4.min.css" crossorigin="anonymous" /> -->
+	<!-- <link rel="stylesheet" href="/css/bootstrap-datetimepicker.css"> -->
+	<!-- <link rel="stylesheet" href="/css/bootstrap-datetimepicker.css"> -->
 </head>
+<style>
+	body {
+		position:relative;
+	}
+	bootstrap-datetimepicker-widget {
+		z-index: 9999 !important;
+	}
+</style>
 <body>
 	<div class="wrapper sidebar_minimize">
 		<div class="main-header">
@@ -445,16 +458,29 @@
 					  <form id="form_addemployee">
 						<div class="container">
 							<div class="row">
-								<div class="col-md-12 col-lg-6">
+								<div class="col-md-12 col-lg-12">
 									<div class="form-group">
 										<label for="email2">Employee Name</label>
-										<input id="employee_name" type="text" class="form-control" placeholder="Enter Employee Name" required="">
+										<!-- <input id="employee_name" type="text" class="form-control" placeholder="Enter Employee Name" required=""> -->
+										<input id="employee_name" list="employee_list" value="" class="form-control" placeholder="Enter Employee Name">
+										<datalist id="employee_list">
+											<option value="ISO-8859-1">ISO-8859-1</option>
+											<option value="cp1252">ANSI</option>
+											<option value="utf8">UTF-8</option>
+										</datalist>
 									</div>
 								</div>
-								<div class="col-md-12 col-lg-6">
+							</div>
+							<div class="row">
+								<div class="col-md-12 col-lg-12">
 									<div class="form-group">
 										<label for="email2">Date</label>
-										<input id="designation_name" type="text" class="form-control" placeholder="Enter Date" required="">
+										<div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+											<input placeholder="Enter date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+											<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker1">
+												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -462,7 +488,12 @@
 								<div class="col-md-12 col-lg-12">
 									<div id="enterphone" class="form-group">
 										<label for="email2">Sign In</label>
-										<input id="details_designation" type="text" class="form-control" placeholder="Enter Sign In" required="">
+										<div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+											<input placeholder="Enter date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2"/>
+											<div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker2">
+												<div class="input-group-text"><i class="fa fa-clock"></i></div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -507,6 +538,7 @@
 		</div>
 	</div>
 	<script src="/js/jquery.3.2.1.min.js"></script>
+	<script src="/js/moment.js"></script>
 	<script src="/js/popper.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery-ui.min.js"></script>
@@ -521,11 +553,27 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.min.js" integrity="sha512-/WwtKR6NnHomLo0O4w9QKc1INTPEJs7ko6u2aBTA1paPldhPl8LtXsi7a35iEZ69+9P5dcgVNESG8hrP4Y2t3w==" crossorigin="anonymous"></script>
 	<script src="/js/choosen-jquery.js"></script>
-	<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
+	<script src="/js/bootstrap-datetimepicker4.js"></script>
+	<!-- <script src="/js/bootstrap-datepicker.min.js"></script> -->
+	<!-- <script src="/js/bootstrap-datetimepicker.min.js"></script> -->
 	<script>
 
+
 		$(document).ready(function() {
-			// getEmployee();
+			$("#datetimepicker1").datetimepicker({
+				format: 'DD-MM-YYYY'
+			});
+			$("#datetimepicker2").datetimepicker({
+				format: 'LT'
+			});
+			// $("#date_check_in").datetimepicker({
+			// 	format: 'DD-MM-YYYY'
+			// });
+			// $('#datetimepicker5').datetimepicker();
+			// $('#details_sign_in').datetimepicker({
+            //     format: 'LT'
+			// });
+			// $('#datetimepicker1').datetimepicker();
 		});
 
 		function modalpopup(){
