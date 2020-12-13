@@ -121,9 +121,10 @@ router.patch("/:id", async function(req, res, next){
             check_out,
             stay_time
         } = req.body;
+        let newDate = moment(date, "DD-MM-YYYY").tz('Asia/Jakarta');
         const patch_attendance = await model.attendance.update({
             employee_name,
-            date,
+            date: newDate,
             check_in,
             check_out,
             stay_time

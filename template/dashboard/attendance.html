@@ -17,17 +17,11 @@
 		});
 	</script>
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
-	<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet"/> -->
 	<link rel="stylesheet" href="/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/css/atlantis.min.css">
 	<link rel="stylesheet" href="/css/demo.css">
 	<link rel="stylesheet" href="/css/chosen-select.css">
 	<link rel="stylesheet" href="/css/bootstrap-datetimepicker-build4.css">
-	<!-- https://www.jqueryscript.net/time-clock/Date-Time-Picker-Bootstrap-4.html -->
-	<!-- <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css"> -->
-	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.38.0/css/tempusdominus-bootstrap-4.min.css" crossorigin="anonymous" /> -->
-	<!-- <link rel="stylesheet" href="/css/bootstrap-datetimepicker.css"> -->
-	<!-- <link rel="stylesheet" href="/css/bootstrap-datetimepicker.css"> -->
 </head>
 <style>
 	body {
@@ -449,13 +443,13 @@
 				<div class="modal-dialog  modal-lg" role="document">
 				  <div class="modal-content">
 					<div class="modal-header">
-					  <h5 class="modal-title" id="exampleModalLabel">Add Designation</h5>
+					  <h5 class="modal-title" id="exampleModalLabel">Add Attendance</h5>
 					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					  </button>
 					</div>
 					<div class="modal-body">
-					  <form id="form_addemployee">
+					  <form id="form_attendance">
 						<div class="container">
 							<div class="row">
 								<div class="col-md-12 col-lg-12">
@@ -464,9 +458,6 @@
 										<!-- <input id="employee_name" type="text" class="form-control" placeholder="Enter Employee Name" required=""> -->
 										<input id="employee_name" list="employee_list" value="" class="form-control" placeholder="Enter Employee Name">
 										<datalist id="employee_list">
-											<option value="ISO-8859-1">ISO-8859-1</option>
-											<option value="cp1252">ANSI</option>
-											<option value="utf8">UTF-8</option>
 										</datalist>
 									</div>
 								</div>
@@ -476,7 +467,7 @@
 									<div class="form-group">
 										<label for="email2">Date</label>
 										<div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-											<input placeholder="Enter date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+											<input id="input_date_attendance" placeholder="Enter date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
 											<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker1">
 												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 											</div>
@@ -489,7 +480,7 @@
 									<div id="enterphone" class="form-group">
 										<label for="email2">Sign In</label>
 										<div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-											<input placeholder="Enter date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2"/>
+											<input id="sign_in_time" placeholder="Enter date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2"/>
 											<div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker2">
 												<div class="input-group-text"><i class="fa fa-clock"></i></div>
 											</div>
@@ -502,12 +493,47 @@
 					</div>
 					<div class="modal-footer">
 					  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					  <button id="createeditdesignation" onclick="createaddemployee()" type="button" class="btn btn-primary">Add Designation</button>
+					  <button id="createeditdesignation" onclick="createattendance()" type="button" class="btn btn-primary">Add Attendance</button>
 					</div>
 				  </div>
 				</div>
 			</div>
-			<input id="add_edit_designation" type="text" value="" hidden>
+			<div id="modal_check_out" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog  modal-lg" role="document">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <h5 class="modal-title" id="exampleModalLabel">Check Out Modal</h5>
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+					<div class="modal-body">
+					  <form id="form_attendance">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12 col-lg-12">
+									<div id="enterphone" class="form-group">
+										<label for="email2">Check Out</label>
+										<div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+											<input id="check_out_time" placeholder="Enter date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3"/>
+											<div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker3">
+												<div class="input-group-text"><i class="fa fa-clock"></i></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						  </div>
+					  </form>
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					  <button id="createeditdesignation" onclick="check_out_time()" type="button" class="btn btn-primary">Add Check Out</button>
+					</div>
+				  </div>
+				</div>
+			</div>
+			<input id="add_edit_attendance" type="text" value="" hidden>
 			<input id="edit_id" type="text" value="" hidden>
 			<footer class="footer">
 				<div class="container-fluid">
@@ -554,10 +580,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.min.js" integrity="sha512-/WwtKR6NnHomLo0O4w9QKc1INTPEJs7ko6u2aBTA1paPldhPl8LtXsi7a35iEZ69+9P5dcgVNESG8hrP4Y2t3w==" crossorigin="anonymous"></script>
 	<script src="/js/choosen-jquery.js"></script>
 	<script src="/js/bootstrap-datetimepicker4.js"></script>
-	<!-- <script src="/js/bootstrap-datepicker.min.js"></script> -->
-	<!-- <script src="/js/bootstrap-datetimepicker.min.js"></script> -->
 	<script>
-
 
 		$(document).ready(function() {
 			$("#datetimepicker1").datetimepicker({
@@ -566,47 +589,50 @@
 			$("#datetimepicker2").datetimepicker({
 				format: 'LT'
 			});
-			// $("#date_check_in").datetimepicker({
-			// 	format: 'DD-MM-YYYY'
-			// });
-			// $('#datetimepicker5').datetimepicker();
-			// $('#details_sign_in').datetimepicker({
-            //     format: 'LT'
-			// });
-			// $('#datetimepicker1').datetimepicker();
+			$("#datetimepicker3").datetimepicker({
+				format: 'LT'
+			});
+
+			getEmployeeList();
+			getAttendanceList();
 		});
 
 		function modalpopup(){
 			addState();
 			$("#modal_add_edit").modal('show');
 			$("#createeditdesignation").prop("disabled", false);
-			$("#createeditdesignation").text("Add Designation");
-			$("#add_edit_designation").val("add");
+			$("#createeditdesignation").text("Add Attendance");
+			$("#add_edit_attendance").val("add");
 		}
 
-		function getEmployee(){
+		function getAttendanceList(){
 			let id = 0;
 			$('#basic-datatables').dataTable({
 				"ajax" : {
-					"url" : "/api/designation/data-table",
+					"url" : "/api/attendance/data-table",
 					"dataSrc" : function (json) {
-						for(let i = 0; i < json.data.length; i ++){
+						let numberCount = 0;
+						for(let i = 0; i < json.data.length; i++){
+							var responseDate = moment(json.data[i][2]).format('DD-MM-YYYY');
 							id = parseInt(json.data[i][0]);
-							json.data[i][0] = json.data[i][1];
-							json.data[i][1] = json.data[i][2];
-							json.data[i][2] = json.data[i][3];
-							json.data[i][3] = "<div class =\"btn-group\" style=\"background-color: #000080;\">"+
+							json.data[i][0] = (numberCount + 1);
+							json.data[i][1] = json.data[i][1];
+							json.data[i][2] = responseDate;
+							json.data[i][3] = json.data[i][3];
+							json.data[i][6] = "<div class =\"btn-group\" style=\"background-color: #000080;\">"+
 								"<button type=\"button\" style=\"background-color: #000080;\" class = \"btn btn-info\">More</button>"+
 								"<button type=\"button\" style=\"background-color: #000080;\" class = \"btn btn-info dropdown=toggle\" data-toggle=\"dropdown\">"+
 									"<span class =\"caret\"></span>"+
 									"<span class=\"sr-only\">Toggle Dropdown</span>"+
 								"</button>"+
 								"<ul class = \"dropdown-menu\" role = \"menu\">"+
-									"<li><a onclick=\"edit_designation('"+id+"')\">Edit</a></li>"+
-									"<li><a onclick=\"detail_designation('"+id+"')\">Detail</a></li>"+
-									"<li><a onclick=\"deleteDesignation('"+id+"')\">Delete</a></li>"+
+									"<li><a onclick=\"edit_attendance('"+id+"')\">Edit</a></li>"+
+									"<li><a onclick=\"detail_attendance('"+id+"')\">Detail</a></li>"+
+									"<li><a onclick=\"check_out('"+id+"')\">Check Out</a></li>"+
+									"<li><a onclick=\"delete_attendance('"+id+"')\">Delete</a></li>"+
 								"</ul>"+
 							"</div>";
+							numberCount++;
 						}
 						return json.data;
 					}
@@ -614,54 +640,53 @@
 			});
 		}
 
-		function edit_designation(id){
-			$("#add_edit_designation").val("edit");
-			$("#edit_id").val(id.toString());
-			editState();
+		function check_out(){
+			$("#check_out_time").val("");
+			$("#modal_check_out").modal("show");
+		}
+
+		function getEmployeeList(){
 			$.ajax({
-				url: "/api/designation/" + id,
+				url: "/api/employee/data-table",
 				type: "GET",
 				contentType: "application/json",
 				success: function(result){
-					$("#modal_add_edit").modal('show');
-					$("#sl_designation").val(result.count[0].sl);
-					$("#designation_name").val(result.count[0].designation);
-					$("#details_designation").val(result.count[0].details);
-					$("#createeditdesignation").prop("disabled", false);
-					$("#createeditdesignation").text("Edit Employee");
+					$("#employee_list").append("<option>- List Employee -</option>");
+					for(let i = 0; i < result.data.length; i++){
+						console.log(result.data[i][1]);
+						$("#employee_list").append("<option data-value = '"+ result.data[i][0] +"'>" + result.data[i][1] + "</option>");
+					}
 				}
 			});
 		}
 
-		function createaddemployee(){
-			$("#form_addemployee").parsley().validate();
+		function createattendance(){
+			$("#form_attendance").parsley().validate();
 			let data = {
-				sl: $("#sl_designation").val(),
-				designation: $("#designation_name").val(),
-				details: $("#details_designation").val(),
+				employee_name: $("#employee_name").val(),
+				date: $("#input_date_attendance").val(),
+				check_in: $("#sign_in_time").val(),
 			}
-			if($("#form_addemployee").parsley().isValid()){
-				if($("#add_edit_designation").val() === "add"){
+			if($("#form_attendance").parsley().isValid()){
+				if($("#add_edit_attendance").val() === "add"){
 					$.ajax({
-						url: "/api/designation",
+						url: "/api/attendance",
 						type: "POST",
 						contentType: "application/json",
 						data: JSON.stringify(data),
 						success: function(result){
-							console.log(result.data);
 							$("#modal_add_edit").modal('hide');
 							$('#basic-datatables').DataTable().ajax.reload();
 						}
 					});
 				}else{
-					data.phone = parseInt(data.phone);
+					console.log(data);
 					$.ajax({
-						url: "/api/designation/" + $("#edit_id").val(),
+						url: "/api/attendance/" + $("#edit_id").val(),
 						type: "PATCH",
 						contentType: "application/json",
 						data: JSON.stringify(data),
 						success: function(result){
-							console.log(result.data);
 							$("#modal_add_edit").modal('hide');
 							$('#basic-datatables').DataTable().ajax.reload();
 						}
@@ -670,9 +695,9 @@
 			}
 		}
 
-		function deleteDesignation(id){
+		function delete_attendance(id){
 			$.ajax({
-				url: "/api/designation/" + id,
+				url: "/api/attendance/" + id,
 				type: "DELETE",
 				contentType: "application/json",
 				success: function(result){
@@ -682,49 +707,70 @@
 			});
 		}
 
-		function detail_designation(id){
+		function detail_attendance(id){
+			detailState();
 			$.ajax({
-				url: "/api/designation/" + id,
+				url: "/api/attendance/" + id,
 				type: "GET",
 				contentType: "application/json",
 				success: function(result){
-					detailState();
+					console.log(result);
+					var responseDate = moment(result.data[0].date).format('DD-MM-YYYY');
 					$("#modal_add_edit").modal('show');
-					$("#sl_designation").val(result.count[0].sl);
-					$("#designation_name").val(result.count[0].designation);
-					$("#details_designation").val(result.count[0].details);
+					$("#employee_name").val(result.data[0].employee_name);
+					$("#input_date_attendance").val(responseDate);
+					$("#sign_in_time").val(result.data[0].check_in);
 					$("#createeditdesignation").prop("disabled", true);
 				}
 			});
 		}
 
+		function detailState(){
+			$("#employee_name").prop("disabled", true);
+			$("#input_date_attendance").prop("disabled", true);
+			$("#sign_in_time").prop("disabled", true);
+		}
+
+		function edit_attendance(id){
+			$("#add_edit_attendance").val("edit");
+			$("#edit_id").val(id.toString());
+			editState();
+			$.ajax({
+				url: "/api/attendance/" + id,
+				type: "GET",
+				contentType: "application/json",
+				success: function(result){
+					var responseDate = moment(result.data[0].date).format('DD-MM-YYYY');
+					$("#modal_add_edit").modal('show');
+					$("#employee_name").val(result.data[0].employee_name);
+					$("#input_date_attendance").val(responseDate);
+					$("#sign_in_time").val(result.data[0].check_in);
+					$("#createeditdesignation").prop("disabled", false);
+					$("#createeditdesignation").text("Edit Employee");
+				}
+			});
+		}
+
+		function check_out_time(id){
+
+		}
+
 		function editState(){
-			$("#id_designation").val("");
-			$("#sl_designation").val("");
-			$("#designation_name").val("");
-			$("#details_designation").val("");
-			$("#id_designation").prop("disabled", false);
-			$("#sl_designation").prop("disabled", false);
-			$("#designation_name").prop("disabled", false);
-			$("#details_designation").prop("disabled", false);
+			$("#employee_name").val("");
+			$("#input_date_attendance").val("");
+			$("#sign_in_time").val("");
+			$("#employee_name").prop("disabled", false);
+			$("#input_date_attendance").prop("disabled", false);
+			$("#sign_in_time").prop("disabled", false);
 		}
 
 		function addState(){
-			$("#id_designation").val("");
-			$("#sl_designation").val("");
-			$("#designation_name").val("");
-			$("#details_designation").val("");
-			$("#id_designation").prop("disabled", false);
-			$("#sl_designation").prop("disabled", false);
-			$("#designation_name").prop("disabled", false);
-			$("#details_designation").prop("disabled", false);
-		}
-
-		function detailState(){
-			$("#id_designation").prop("disabled", true);
-			$("#sl_designation").prop("disabled", true);
-			$("#designation_name").prop("disabled", true);
-			$("#details_designation").prop("disabled", true);
+			$("#employee_name").val("");
+			$("#input_date_attendance").val("");
+			$("#sign_in_time").val("");
+			$("#employee_name").prop("disabled", false);
+			$("#input_date_attendance").prop("disabled", false);
+			$("#sign_in_time").prop("disabled", false);
 		}
 
 	</script>
