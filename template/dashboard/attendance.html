@@ -535,6 +535,8 @@
 			</div>
 			<input id="add_edit_attendance" type="text" value="" hidden>
 			<input id="edit_id" type="text" value="" hidden>
+			<input id="check_in_state" type="text" value="" hidden>
+			<input id="current_date_state" type="text" value="" hidden>
 			<footer class="footer">
 				<div class="container-fluid">
 					<nav class="pull-left">
@@ -587,10 +589,10 @@
 				format: 'DD-MM-YYYY'
 			});
 			$("#datetimepicker2").datetimepicker({
-				format: 'LT'
+				format: 'HH:mm'
 			});
 			$("#datetimepicker3").datetimepicker({
-				format: 'LT'
+				format: 'HH:mm'
 			});
 
 			getEmployeeList();
@@ -628,7 +630,7 @@
 								"<ul class = \"dropdown-menu\" role = \"menu\">"+
 									"<li><a onclick=\"edit_attendance('"+id+"')\">Edit</a></li>"+
 									"<li><a onclick=\"detail_attendance('"+id+"')\">Detail</a></li>"+
-									"<li><a onclick=\"check_out('"+id+"')\">Check Out</a></li>"+
+									"<li><a onclick=\"check_out('"+id+"', '" + json.data[i][3] + "', '" + responseDate +"')\">Check Out</a></li>"+
 									"<li><a onclick=\"delete_attendance('"+id+"')\">Delete</a></li>"+
 								"</ul>"+
 							"</div>";
@@ -640,9 +642,12 @@
 			});
 		}
 
-		function check_out(){
+		function check_out(id, check_in_state, responseDate){
+			$("#edit_id").val(id.toString());
 			$("#check_out_time").val("");
 			$("#modal_check_out").modal("show");
+			$("#check_in_state").val(check_in_state);
+			$("#current_date_state").val(responseDate);
 		}
 
 		function getEmployeeList(){
@@ -751,8 +756,38 @@
 			});
 		}
 
-		function check_out_time(id){
+		function getTimeInterval(startTime, endTime){
+			var start = moment(startTime, "HH:mm");
+			var end = moment(endTime, "HH:mm");
+			var minutes = end.diff(start, 'minutes');
+			var interval = moment().hour(0).minute(minutes);
+			return interval.format("HH:mm");
+		}
 
+		function check_out_time(id){
+			let check_in_state_value = $("#check_in_state").val();
+			let check_out_value = $("#check_out_time").val();
+			let momentValue = moment(check_out_value, 'HH:mm').format('HH:mm');
+			let momentValueCheckIn = moment(check_in_state_value, 'HH:mm').format('HH:mm');
+			let differenTime = getTimeInterval(momentValueCheckIn, momentValue);
+			let data = {
+				check_out: $("#check_out_time").val(),
+				stay_time: differenTime,
+				date: $("#current_date_state").val()
+			}
+			console.log(data);
+			$.ajax({
+				url: "/api/attendance/" + $("#edit_id").val(),
+				type: "PATCH",
+				contentType: "application/json",
+				data: JSON.stringify(data),
+				success: function(result){
+					$("#modal_add_edit").modal('hide');
+					$('#basic-datatables').DataTable().ajax.reload();
+					$("#check_out_time").val("");
+					$("#modal_check_out").modal("hide");
+				}
+			});
 		}
 
 		function editState(){
